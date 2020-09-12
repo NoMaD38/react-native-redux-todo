@@ -1,21 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import StackNavigator from './navigation/StackNavigation';
+import { Provider } from 'react-redux';
+import store from './store';
+
+// const fontConfig = {
+// 	default: {
+// 		regular: {
+// 			fontFamily: 'sans-serif',
+// 			fontWeight: 'normal'
+// 		},
+// 		medium: {
+// 			fontFamily: 'sans-serif-medium',
+// 			fontWeight: 'normal'
+// 		},
+// 		light: {
+// 			fontFamily: 'sans-serif-light',
+// 			fontWeight: 'normal'
+// 		},
+// 		thin: {
+// 			fontFamily: 'sans-serif-thin',
+// 			fontWeight: 'normal'
+// 		}
+// 	}
+// };
+
+const theme = {
+	...DefaultTheme,
+	// fonts: configureFonts(fontConfig),
+	colors: {
+		...DefaultTheme.colors,
+		primary: 'white',
+		accent: 'yellow'
+	}
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	return (
+		<Provider store={store}>
+			<PaperProvider theme={theme}>
+				<StackNavigator />
+			</PaperProvider>
+		</Provider>
+	);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
