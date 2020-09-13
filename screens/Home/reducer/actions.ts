@@ -1,4 +1,4 @@
-import { IAction, IList, IToDo } from '../../../interfaces'
+import { IAction, IList } from '../../../interfaces'
 import * as actionType from './actionsTypes'
 
 export const setLists = (lists:IList[]):IAction => ({
@@ -39,34 +39,19 @@ export const deleteList = (id: Number) => (dispatch:any) =>{
     .then(() => dispatch(loadData()))
 }
 
-//добавление дела
-export const addTodo = (buttonValue: String, todo: IToDo) => (dispatch:any) => {
-  fetch(`http://mobile-dev.oblakogroup.ru/candidate/IvanRyzhov/list/${parseInt(buttonValue)}/todo`,{
-    method: 'POST',
-    body:JSON.stringify(todo),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(res=>res.json())
-    .then(()=>dispatch(loadData()))
-}
-
 //удаление дела
 export const deleteToDo = (id: Number) => (dispatch: any) => {
   console.log(id);
   
   fetch(`http://mobile-dev.oblakogroup.ru/candidate/IvanRyzhov/todo/${id}`,{
-    method:' DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    method:' DELETE'
   })
     .then((res)=> res.text())
-    .then((json)=> {
-      dispatch(loadData())
-      console.log(json)
-    })
+    .then(text=>{
+      console.log(text)
+    dispatch(loadData())
+    }
+    )
 }
 
 //завершение дела
@@ -75,22 +60,6 @@ export const checkedToDo = (todo_id: Number, list_id: Number, status: boolean) =
     method: 'PATCH',
     body: JSON.stringify({
       checked: !status
-    }),
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8'
-    }
-  })
-    .then(res => res.json())
-    .then(()=> dispatch(loadData()))
-}
-
-//обновление дела
-export const updateToDo = (list_id: Number, todo_id: Number, todo: {}) => (dispatch: any) => {
-
-  fetch(`http://mobile-dev.oblakogroup.ru/candidate/IvanRyzhov/list/${list_id}/todo/${todo_id}`,{
-    method: 'PATCH',
-    body: JSON.stringify({
-      ...todo
     }),
     headers: {
       'Content-type': 'application/json; charset=UTF-8'

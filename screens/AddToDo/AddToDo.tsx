@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IStateToDo, IToDo } from '../../interfaces';
 import { Appbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { addTodo } from '../Home/reducer/actions';
+import { addTodo } from './reducer/action';
 
 export default function AddToDo() {
 	const [ buttonValue, setButtonValue ] = useState('');
@@ -26,7 +26,7 @@ export default function AddToDo() {
 	const navigation = useNavigation();
 
 	const addtodo = () => {
-		const todo: IToDo = {
+		const todo: {} = {
 			id: Date.now(),
 			text: inputValue,
 			checked: false

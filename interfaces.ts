@@ -3,10 +3,6 @@ export interface IAction {
     payload?: any
 }
 
-export interface IThunk {
-    dispatch: any
-}
-
 export interface IStateToDo {
     lists: IList[]
 }
@@ -21,4 +17,16 @@ export interface IToDo {
     readonly id         : number
     text:string
     checked: boolean
+    list_id: number
+}
+
+export type StackParamList = {
+    Home: undefined,
+    AddToDo: undefined,
+    EditToDo: {
+        item: IToDo
+    },
+    EditCategory: {
+        item: IList
+    }
 }

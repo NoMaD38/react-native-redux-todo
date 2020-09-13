@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 
-export default function HeaderHome({backgroundSheet}) {
+export default function HeaderHome({backgroundSheet}: any) {
 	return (
 		<Appbar.Header style={styles.header_container}>
 			<Appbar.Content title="Задачи" />

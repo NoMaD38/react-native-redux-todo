@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Entypo, AntDesign, Feather } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useDispatch } from 'react-redux';
 import { checkedToDo, deleteToDo } from '../screens/Home/reducer/actions';
 import { useNavigation } from '@react-navigation/native';
+import { IToDo } from '../interfaces';
 
-export default function ItemCategory({ item }) {
+export default function ItemCategory({ item }:IToDo) {
 
 	const navigation = useNavigation()
 

@@ -3,8 +3,9 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { checkedToDo } from '../screens/Home/reducer/actions';
+import { IToDo } from '../interfaces';
 
-export default function ItemChecked({item}) {
+export default function ItemChecked({item}:IToDo) {
 
     const dispatch = useDispatch()
 

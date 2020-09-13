@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import Category from '../../components/Category';
 import { Value } from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';

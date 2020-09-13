@@ -3,39 +3,46 @@ import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Text, TextInput } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import { IList } from '../interfaces';
+import { IList, IStateToDo } from '../interfaces';
 import { addList, deleteList } from '../screens/Home/reducer/actions';
+import { useNavigation } from '@react-navigation/native';
 
-export default function BottomSheetRenderContent({ lists }) {
+export default function BottomSheetRenderContent ({ lists }: IStateToDo) {
 	const dispatch = useDispatch();
+	const navigation = useNavigation()
 	const [ value, setValue ] = useState('');
-	const [disabled, setdisabled] = useState(true)
+	const [ disabled, setdisabled ] = useState(true);
 
 	const addCategory = () => {
 		const category: IList = {
 			id: Date.now(),
 			title: value,
 			todos: []
-		}
-		dispatch(addList(category))
-		setValue('')
-	}
+		};
+		dispatch(addList(category));
+		setValue('');
+	};
 
 	const deleteCategory = (id: Number) => {
-		dispatch(deleteList(id))
-	}
+		dispatch(deleteList(id));
+	};
 
-	useEffect(()=>{
-		value.trim() == '' ? setdisabled(true) : setdisabled(false)
-	},[value])
+	useEffect(
+		() => {
+			value.trim() == '' ? setdisabled(true) : setdisabled(false);
+		},
+		[ value ]
+	);
 
 	return (
 		<View style={styles.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				{lists.map((item: IList) => (
 					<View style={styles.category} key={item.id}>
-						<Text style={{ fontSize: 18, fontWeight:'bold' }}>{item.title}</Text>
-						<TouchableOpacity onPress={()=> deleteCategory(item.id)}>
+						<TouchableOpacity onPress={()=>navigation.navigate('EditCategory', {item})}>
+							<Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.title}</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => deleteCategory(item.id)}>
 							<AntDesign name="delete" size={18} color="red" />
 						</TouchableOpacity>
 					</View>
@@ -49,7 +56,7 @@ export default function BottomSheetRenderContent({ lists }) {
 					mode="outlined"
 					style={styles.input}
 				/>
-				<TouchableOpacity onPress={()=>addCategory()} disabled={disabled}>
+				<TouchableOpacity onPress={() => addCategory()} disabled={disabled}>
 					<AntDesign name="plus" size={20} color="grey" />
 				</TouchableOpacity>
 			</View>
@@ -85,6 +92,6 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		marginLeft: -15,
 		borderWidth: 0,
-		fontWeight:'bold'
+		fontWeight: 'bold'
 	}
 });

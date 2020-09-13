@@ -1,45 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, RadioButton, Text } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { IStateToDo, StackParamList } from '../../interfaces';
 import { Appbar } from 'react-native-paper';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { updateToDo } from './reducer/action';
+import { updateCategory } from './reducer/action';
 
-type EditToDoScreenRouteProp = RouteProp<StackParamList, 'EditToDo'>
+type EditCategoryScreenRouteProp = RouteProp<StackParamList, 'EditCategory'>
 
-export default function EditToDo() {
-	const [ buttonValue, setButtonValue ] = useState('');
-	const route = useRoute<EditToDoScreenRouteProp>();
+export default function EditCategory() {
+	const route = useRoute<EditCategoryScreenRouteProp>();
 	const dispatch = useDispatch();
-	const [ inputValue, setInputValue ] = useState(route.params.item.text);
+	const [ inputValue, setInputValue ] = useState(route.params.item.title);
 	const [ disabled, setDisabled ] = useState(false);
 	const navigation = useNavigation();
 
 	useEffect(
 		() => {
-			inputValue.trim() == '' || buttonValue == '' ? setDisabled(true) : setDisabled(false);
+			inputValue.trim() == '' ? setDisabled(true) : setDisabled(false);
 		},
-		[ buttonValue, inputValue ]
+		[ inputValue ]
 	);
 
 	const lists = useSelector<IStateToDo, IStateToDo['lists']>((state) => state.lists);
 
-	useEffect(() => {
-		const index = lists.findIndex((i) => i.id == route.params.item.list_id);
-		setButtonValue(lists[index].id.toString());
-	}, []);
-
 	const update = () => {
-			const list_id = parseInt(buttonValue);
-			const todo_id = route.params.item.id;
-			const todo: {} = {
-				text: inputValue,
-				list_id: list_id
-			}
-			dispatch(updateToDo(route.params.item.list_id, todo_id, todo));
+		if (inputValue == route.params.item.title) {
 			navigation.goBack();
+		} else {
+			dispatch(updateCategory(route.params.item.id, inputValue));
+			navigation.goBack();
+		}
 	};
 
 	return (
@@ -57,15 +49,6 @@ export default function EditToDo() {
 					value={inputValue}
 					onChangeText={(e) => setInputValue(e)}
 				/>
-				<Text style={styles.title_category}>категория</Text>
-				<RadioButton.Group onValueChange={(value) => setButtonValue(value)} value={buttonValue}>
-					{lists.map((item) => (
-						<View style={styles.radio_button} key={item.id}>
-							<Text style={styles.title_radio_button}>{item.title}</Text>
-							<RadioButton value={`${item.id}`} color="blue" />
-						</View>
-					))}
-				</RadioButton.Group>
 			</View>
 		</View>
 	);

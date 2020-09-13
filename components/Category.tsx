@@ -4,8 +4,9 @@ import { Text } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import ItemCategory from './ItemCategory';
 import CheckedToDoList from './CheckedToDoList';
+import { IList, IToDo } from '../interfaces';
 
-const Category = ({ item }) => {
+const Category = ({ item }: IList) => {
 	const [ openList, setOpenList ] = useState(false);
 
 	return (
@@ -13,7 +14,7 @@ const Category = ({ item }) => {
 			<View>
 				<Text style={styles.title_text}>{item.title}</Text>
 			</View>
-			{item.todos.map((item) => {
+			{item.todos.map((item: IToDo) => {
 				if (!item.checked) {
 					return <ItemCategory key={item.id} item={item} />;
 				}
